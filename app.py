@@ -166,4 +166,4 @@ def entry(entry_id):
 
 if __name__ == '__main__':
     debug = os.environ.get('FLASK_DEBUG', '1') == '1'
-    app.run(host='0.0.0.0', port=5000, debug=debug)
+    app.run(host='0.0.0.0', port=5000, debug=False)
