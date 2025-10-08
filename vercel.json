@@ -1,5 +1,14 @@
 {
-  "installCommand": "python3 -m pip install -r requirements.txt || python -m pip install -r requirements.txt",
-  "buildCommand": "python build_static.py",
-  "outputDirectory": "out"
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ]
 }
