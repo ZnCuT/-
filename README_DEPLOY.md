@@ -55,3 +55,18 @@ Vercel（用于静态托管）
 如果你同意，我可以：
 - 调整静态页的章节链接以更接近原来的动态 URL 风格；
 - 添加一个简单的 GitHub Actions 工作流以在 push 后自动在 `out/` 目录生成静态文件（便于在 push 时检测构建问题）。
+
+使用 GitHub Actions 构建并在 Vercel 上部署（解决 Vercel 无法运行 Python 的问题）
+
+如果 Vercel 的运行环境不能直接运行 `python` 或安装依赖（例如出现 `python: command not found` 或 `Could not open requirements file`），推荐使用 CI 在 GitHub 上构建静态文件并把构建产物推到一个专门分支，再让 Vercel 从该分支直接部署静态内容。仓库中已添加 `publish_static.yml`（位于 `.github/workflows/`），它会在每次 push 到 `main` 时：
+
+1. 在 Actions 里安装依赖并运行 `python build_static.py`。
+2. 将生成的 `out/` 目录发布到 `static-site` 分支（使用 `peaceiris/actions-gh-pages`）。
+
+在 Vercel 中部署该静态分支：
+1. 登录 Vercel -> New Project -> Import Git Repository，选择你的仓库。
+2. 在部署设置中选择要部署的 Branch，输入 `static-site`（而不是 `main`）。
+3. 将 Build & Output 设置为空（因为产物已经由 CI 生成），或者至少把 Build Command 清空并把 Output Directory 指为 `/`（即直接使用仓库根中的静态文件）。
+4. 部署后 Vercel 将直接托管 `static-site` 分支里的静态文件（无需在 Vercel 上运行 Python）。
+
+这样可以稳定地在 Vercel 上托管静态站点，同时保留 `main` 分支作为可编辑源代码与内容源（由 Actions 自动构建）。
