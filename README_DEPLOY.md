@@ -70,3 +70,22 @@ Vercel（用于静态托管）
 4. 部署后 Vercel 将直接托管 `static-site` 分支里的静态文件（无需在 Vercel 上运行 Python）。
 
 这样可以稳定地在 Vercel 上托管静态站点，同时保留 `main` 分支作为可编辑源代码与内容源（由 Actions 自动构建）。
+
+CI 推送到 `static-site` 分支时遇到 403 错误的原因与解决办法
+
+错误示例：
+   remote: Permission to <repo> denied to github-actions[bot].
+
+原因：
+- GitHub Actions 使用内置的 `GITHUB_TOKEN` 来进行 API 操作与 push；在某些仓库或组织策略下，`GITHUB_TOKEN` 可能没有写权限向保护分支或特定分支推送，或者仓库设置禁止 `GITHUB_TOKEN` 执行写操作。
+
+解决办法：
+1. 推荐（简单）：在 workflow 的 job 中设置 `permissions: contents: write`（仓库我已修改），并确保 `actions/checkout` 使用 `persist-credentials: true`，允许 `GITHUB_TOKEN` 推送。此方法适用于大多数个人仓库。
+2. 如果你的仓库启用了分支保护（或组织策略），`GITHUB_TOKEN` 仍可能被拒绝，这时：
+    - 创建一个 Personal Access Token (PAT) 并把它添加到仓库的 Secrets（Settings -> Secrets -> Actions -> New repository secret，名称例如 `ACTIONS_PAT`）。
+    - 在 workflow 中使用该 secret 代替 `GITHUB_TOKEN`（在 `peaceiris/actions-gh-pages` 的 `github_token` 字段填 `${{ secrets.ACTIONS_PAT }}`）。
+3. 另一替代：不要直接在 CI 推送，改为让 maintainer 手动合并/部署构建结果或使用 GitHub Pages 的自动发布选项。
+
+我已经：
+- 在 workflow 中为 job 加入 `permissions: contents: write` 并设置 `persist-credentials: true`（能解决大多数 403 问题）。
+- 如果仍未解决，我可以把 workflow 修改为使用 PAT，并在 README 中给出 PAT 的创建与配置步骤。

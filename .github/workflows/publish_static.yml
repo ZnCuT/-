@@ -7,10 +7,14 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
+        # ensure the checkout action keeps the token for pushes
+        persist-credentials: true
         fetch-depth: 0
 
     - name: Set up Python
