@@ -4,6 +4,8 @@ Usage: python build_static.py
 """
 import os
 import shutil
+import sys
+import traceback
 from jinja2 import Environment, FileSystemLoader
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -111,9 +113,16 @@ def main():
     if os.path.exists(OUT_DIR):
         shutil.rmtree(OUT_DIR)
     os.makedirs(OUT_DIR, exist_ok=True)
-    books = load_books_from_raw()
-    render_site(books)
-    print('Static site generated in', OUT_DIR)
+    try:
+        print('Python executable:', sys.executable)
+        print('Python version:', sys.version)
+        books = load_books_from_raw()
+        render_site(books)
+        print('Static site generated in', OUT_DIR)
+    except Exception:
+        print('ERROR: build failed, traceback follows:')
+        traceback.print_exc()
+        raise
 
 
 if __name__ == '__main__':
