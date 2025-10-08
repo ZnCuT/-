@@ -37,3 +37,21 @@ PythonAnywhere（适合小型或免费托管）
 如果你希望我：
 - 把 `requirements.txt` 补全（现在只有 Flask、gunicorn），我可以为你生成更完整的依赖列表并把 `debug` 设为根据环境变量控制；
 - 创建一个简单的 GitHub Actions 工作流来在每次 push 时运行基本检查并自动推送到所选平台（例如通过 Render 的 Deploy 按钮挂钩或用 Railway 的 CLI），我也可以帮你完成这些。
+
+Vercel（用于静态托管）
+
+如果你想用 Vercel 来托管并分享网站（免费层支持），可以使用仓库中提供的静态构建脚本 `build_static.py`：
+
+1. 在项目根目录下，脚本会读取 `data/raw/` 中的书籍/章节文本并渲染 `templates/` 生成静态文件到 `out/`。
+2. 已在 `vercel.json` 中设置：
+   - installCommand: pip install -r requirements.txt
+   - buildCommand: python build_static.py
+   - outputDirectory: out
+3. 把项目 push 到 GitHub 后，登录 Vercel -> New Project -> Import Git Repository，选择仓库。Vercel 会按 `vercel.json` 执行 install/build 并把 `out/` 目录作为静态站点发布。
+4. 注意事项：
+   - 该静态生成器把章节页面输出为 `/book/<id>/chapter_<n>.html`（URL 与 Flask 运行时的动态路由略有不同）。
+   - 若你想保持动态行为（例如“上一章/下一章”链接、搜索、按需加载），Vercel 静态部署会限制交互；可以考虑使用 Vercel Serverless Functions（需要改为 WSGI/ASGI 兼容的方式）或使用 Render/Railway 来运行完整 Flask 服务。
+
+如果你同意，我可以：
+- 调整静态页的章节链接以更接近原来的动态 URL 风格；
+- 添加一个简单的 GitHub Actions 工作流以在 push 后自动在 `out/` 目录生成静态文件（便于在 push 时检测构建问题）。
