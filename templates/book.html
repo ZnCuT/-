@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ book.title }} — 章节</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>{{ book.title }}</h1>
+      </header>
+
+      <nav class="chapter-list">
+        <h3>章节</h3>
+        <ul>
+          {% for ch in book.chapters %}
+          <li><a href="/book/{{ book.id }}/chapter/{{ ch.id }}">{{ ch.id }}. {{ ch.title or '章节' }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <p><a href="/">← 返回首页</a></p>
+
+      <footer>
+        <small>每章节展示三平行文本（文言文 / 现代汉语 / English）</small>
+      </footer>
+    </div>
+  </body>
+</html>
