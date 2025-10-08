@@ -83,20 +83,28 @@ def render_site(books):
 
     # render each book page
     book_tpl = env.get_template('book.html')
+    ch_tpl = env.get_template('chapter.html')
     for b in books:
         book_dir = os.path.join(OUT_DIR, 'book', b['id'])
         os.makedirs(book_dir, exist_ok=True)
         with open(os.path.join(book_dir, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(book_tpl.render(book=b))
 
-        # render chapters
-        ch_tpl = env.get_template('chapter.html')
-        for ch in b['chapters']:
-            ch_path = os.path.join(book_dir, f'chapter_{ch["id"]}.html')
+        # render chapters into directory-style paths: /book/<id>/chapter/<n>/index.html
+        for i, ch in enumerate(b['chapters']):
+            chapter_dir = os.path.join(book_dir, 'chapter', str(ch['id']))
+            os.makedirs(chapter_dir, exist_ok=True)
+            ch_path = os.path.join(chapter_dir, 'index.html')
             # normalize keys expected by template
             ch_display = {'id': ch['id'], 'title': ch.get('title', ''), 'wenyan': ch.get('wenyan', ''), 'z': ch.get('zh', ''), 'en': ch.get('en', '')}
+            prev_url = None
+            next_url = None
+            if i - 1 >= 0:
+                prev_url = f"/book/{b['id']}/chapter/{b['chapters'][i-1]['id']}/"
+            if i + 1 < len(b['chapters']):
+                next_url = f"/book/{b['id']}/chapter/{b['chapters'][i+1]['id']}/"
             with open(ch_path, 'w', encoding='utf-8') as f:
-                f.write(ch_tpl.render(book=b, chapter=ch_display, prev_url=None, next_url=None))
+                f.write(ch_tpl.render(book=b, chapter=ch_display, prev_url=prev_url, next_url=next_url))
 
 
 def main():

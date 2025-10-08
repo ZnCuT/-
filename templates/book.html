@@ -16,7 +16,7 @@
         <h3>章节</h3>
         <ul>
           {% for ch in book.chapters %}
-          <li><a href="/book/{{ book.id }}/chapter/{{ ch.id }}">{{ ch.id }}. {{ ch.title or '章节' }}</a></li>
+          <li><a href="/book/{{ book.id }}/chapter/{{ ch.id }}/">{{ ch.id }}. {{ ch.title or '章节' }}</a></li>
           {% endfor %}
         </ul>
       </nav>

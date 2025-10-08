@@ -126,6 +126,7 @@ def index():
     return render_template('home.html', books=BOOKS)
 
 
+@app.route('/book/<book_id>/')
 @app.route('/book/<book_id>')
 def book_page(book_id):
     for b in BOOKS:
@@ -134,6 +135,7 @@ def book_page(book_id):
     abort(404)
 
 
+@app.route('/book/<book_id>/chapter/<int:chapter_id>/')
 @app.route('/book/<book_id>/chapter/<int:chapter_id>')
 def chapter_page(book_id, chapter_id):
     for b in BOOKS:
@@ -145,9 +147,9 @@ def chapter_page(book_id, chapter_id):
                     prev_url = None
                     next_url = None
                     if idx - 1 >= 0:
-                        prev_url = f"/book/{book_id}/chapter/{chapter_id-1}"
+                        prev_url = f"/book/{book_id}/chapter/{chapter_id-1}/"
                     if idx + 1 < len(b['chapters']):
-                        next_url = f"/book/{book_id}/chapter/{chapter_id+1}"
+                        next_url = f"/book/{book_id}/chapter/{chapter_id+1}/"
                     # normalize keys for template (chapter.z and chapter.en)
                     ch_display = {'id': ch['id'], 'title': ch.get('title', ''), 'wenyan': ch.get('wenyan', ''), 'z': ch.get('zh', ''), 'en': ch.get('en', '')}
                     return render_template('chapter.html', book=b, chapter=ch_display, prev_url=prev_url, next_url=next_url)
@@ -163,4 +165,5 @@ def entry(entry_id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    debug = os.environ.get('FLASK_DEBUG', '1') == '1'
+    app.run(host='0.0.0.0', port=5000, debug=debug)
