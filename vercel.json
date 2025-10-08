@@ -1,6 +1,7 @@
 {
   "installCommand": "pip install -r requirements.txt",
   "buildCommand": "python build_static.py",
+  "startCommand": "gunicorn app:app",
   "outputDirectory": "out",
   "framework": "other"
 }
