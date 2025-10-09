@@ -1,5 +1,6 @@
 {
-  "installCommand": "python3 -m pip install -r requirements.txt || python -m pip install -r requirements.txt",
+  "installCommand": "pip3 install -r requirements.txt",
   "buildCommand": "python3 build_static.py",
-  "outputDirectory": "out"
+  "outputDirectory": "out",
+  "framework": "python"
 }
