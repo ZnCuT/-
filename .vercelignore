@@ -9,15 +9,14 @@ frontend
 dist
 build
 coverage
-venv.venv
-.github
-*.pyc
+venv
 __pycache__
-data/raw/**
-build_static.py
-app.py
-README_DEPLOY.md
-README.md
-requirements.txt
-Procfile
-runtime.txt
+*.pyc
+# keep data/raw and build scripts in the build environment
+# data/raw/**
+# build_static.py
+# app.py
+# README_DEPLOY.md
+# requirements.txt
+# Procfile
+# runtime.txt
