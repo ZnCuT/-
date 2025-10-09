@@ -165,5 +165,7 @@ def entry(entry_id):
 
 
 if __name__ == '__main__':
-    debug = os.environ.get('FLASK_DEBUG', '1') == '1'
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    # 适配 Vercel 的 PORT 环境变量，默认 fallback 到 5000（本地开发用）
+    port = int(os.environ.get('PORT', 5000))
+    # 生产环境强制关闭 debug（Vercel 要求）
+    app.run(host='0.0.0.0', port=port, debug=False)
