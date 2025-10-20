@@ -22,4 +22,109 @@ header h1{margin:0;font-size:2rem;letter-spacing:0.5px}
 .books-nav li,.chapter-list li{padding:6px 0}
 .books-nav a,.chapter-list a{color:#0b3d91;text-decoration:none;font-weight:600}
 
+/* category list styling */
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.category-item {
+  background: var(--card);
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.category-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.category-item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.category-item h4 {
+  margin: 0 0 8px 0;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+
+.chapter-count {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* chapter list in category page */
+.chapter-list {
+  margin: 20px 0;
+}
+
+.chapter-item {
+  background: var(--card);
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.chapter-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.chapter-item a {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.chapter-number {
+  color: var(--accent);
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.chapter-title {
+  color: #333;
+}
+
+/* navigation styling */
+.category-nav, .chapter-nav {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.category-nav a, .chapter-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  margin: 0 4px;
+  display: inline-block;
+}
+
+.category-nav a:hover, .chapter-nav a:hover {
+  background-color: var(--accent);
+  color: white;
+}
+
+.breadcrumb {
+  margin: 16px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.breadcrumb a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 footer{color:var(--muted);margin-top:24px}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ category.title }} — {{ book.title }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>{{ book.title }} — {{ category.title }}</h1>
+      </header>
+
+      <main>
+        <div class="chapter-list">
+          {% for chapter in category.chapters %}
+          <div class="chapter-item">
+            <a href="/book/{{ book.id }}/{{ category.id }}/chapter/{{ chapter.id }}/">
+              <span class="chapter-number">第{{ chapter.id }}章</span>
+              <span class="chapter-title">{{ chapter.title }}</span>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </main>
+
+      <nav class="category-nav">
+        <a href="/book/{{ book.id }}/">← 返回{{ book.title }}分类列表</a>
+      </nav>
+
+      <p><a href="/">← 返回首页</a></p>
+
+      <footer>
+        <small>共{{ category.chapters|length }}章</small>
+      </footer>
+    </div>
+  </body>
+</html>

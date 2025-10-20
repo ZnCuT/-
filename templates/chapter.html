@@ -29,11 +29,16 @@
 
       <nav class="chapter-nav">
         {% if prev_url %}<a href="{{ prev_url }}">← 上一章</a>{% endif %}
-        &nbsp; <a href="/book/{{ book.id }}/">章节列表</a> &nbsp;
+        &nbsp; <a href="/book/{{ book.id }}/{{ category.id }}/">{{ category.title }}章节列表</a> &nbsp;
         {% if next_url %}<a href="{{ next_url }}">下一章 →</a>{% endif %}
       </nav>
 
-      <p><a href="/">← 返回首页</a></p>
+      <nav class="breadcrumb">
+        <a href="/">首页</a> &gt; 
+        <a href="/book/{{ book.id }}/">{{ book.title }}</a> &gt; 
+        <a href="/book/{{ book.id }}/{{ category.id }}/">{{ category.title }}</a> &gt;
+        第{{ chapter.id }}章 {{ chapter.title }}
+      </nav>
 
       <footer>
         <small>并排三列显示</small>
